@@ -18,6 +18,7 @@ enum LedStates {
 enum deviceStates {
   ClapChecking,
   ClapAnalyzing,
+  ClearingLed,
   TurnLedON,
   TurnLedOFF,
   BlinkLed
@@ -62,6 +63,10 @@ void loop() {
           clapsAmount++;
           isClapDetected = true;
           clapWaitingStartTime = millis();
+
+          leds[clapsAmount-1] = CRGB(0,0,10);
+          FastLED.show();
+
           Serial.print("Clap detected. New amount: ");
           Serial.println(clapsAmount);
         }
@@ -72,9 +77,18 @@ void loop() {
         }
       }
 
-      if (millis() - clapWaitingStartTime > ClapWaitingTime) {
-        st = ClapAnalyzing;
+      if (millis() - clapWaitingStartTime > ClapWaitingTime && clapsAmount != 0) {
+        Serial.println("Clearing the strip");
+        st = ClearingLed;
       }
+      break;
+
+    case ClearingLed:
+      for (uint8_t i = 0; i < LEDSAMOUNT; i++) {
+        leds[i] = CRGB::Black;
+      }
+      FastLED.show();
+      st = ClapAnalyzing;
       break;
 
     case ClapAnalyzing:
