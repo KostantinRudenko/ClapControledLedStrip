@@ -1,8 +1,14 @@
+#include <Arduino.h>
+#include "FastLED.h"
 
-#define DPIN 13 // Control Pin
+#define LEDSAMOUNT 5
+
+#define DPIN 5 // Control Pin
 #define MPIN A0 // Microphone Pin
 #define Limit 400
 #define ClapWaitingTime 1500
+
+CRGB leds[LEDSAMOUNT];
 
 enum LedStates {
   OFF=0,
@@ -33,6 +39,8 @@ bool isClapDetected = false;
 void setup() {
   pinMode(DPIN, OUTPUT);
   pinMode(MPIN, INPUT);
+
+  FastLED.addLeds<NEOPIXEL, DPIN>(leds, LEDSAMOUNT);
 
   Serial.begin(115200);
 }
@@ -87,25 +95,30 @@ void loop() {
       break;
 
     case TurnLedON:
-      digitalWrite(DPIN, ON);
+      leds[0] = CRGB::Red;
+      FastLED.show();
       Serial.println("Led is ON");
       ledSt = ON;
       st = ClapChecking;
       break;
 
     case TurnLedOFF:
-      digitalWrite(DPIN, OFF);
+      leds[0] = CRGB::Black;
+      FastLED.show();
       Serial.println("Led is OFF");
       ledSt = OFF;
       st = ClapChecking;
       break;
     
     case BlinkLed:
-      digitalWrite(DPIN, OFF);
+      leds[0] = CRGB::Black;
+      FastLED.show();
       delay(500);
-      digitalWrite(DPIN, ON);
+      leds[0] = CRGB::Red;
+      FastLED.show();
       delay(500);
-      digitalWrite(DPIN, OFF);
+      leds[0] = CRGB::Black;
+      FastLED.show();
       st = ClapChecking;
       break;
 
