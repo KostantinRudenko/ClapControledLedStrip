@@ -6,6 +6,8 @@
 #define Limit 400
 #define ClapWaitingTime 1500
 
+#define MiddleMicroOutValue 268
+
 enum LedStates {
   OFF=0,
   ON

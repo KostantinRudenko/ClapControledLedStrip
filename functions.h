@@ -10,3 +10,18 @@ void ClearStrip() {
 	}
 	FastLED.show();
 }
+
+void GetAmplitude(uint16_t& Amplitude) {
+	uint16_t maxV = 0;
+	uint16_t minV = 1023;
+
+	uint32_t start = millis();
+
+	while (millis() - start < 20) {
+		int16_t value = analogRead(MPIN);
+
+		if (maxV < value) maxV = value;
+		if (minV > value) minV = value;
+	}
+	Amplitude = maxV - minV;
+}
