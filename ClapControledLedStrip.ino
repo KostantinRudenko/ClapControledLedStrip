@@ -5,6 +5,7 @@
 #include "functions.h"
 
 uint8_t st = 0;
+uint8_t curMode = 0;
 uint8_t clapsAmount = 0;
 
 uint16_t value;
@@ -60,10 +61,8 @@ void loop() {
       break;
 
     case ClapAnalyzing:
-      switch (clapsAmount) {
-        default:
-          st = ClapChecking;
-      }
+      curMode = clapsAmount;
+
       clapsAmount = 0;
       break;
 
