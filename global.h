@@ -13,10 +13,15 @@ enum LedStates {
   ON
 };
 
+enum modes {
+  AlarmMode = 3
+};
+
 enum deviceStates {
   ClapChecking,
   ClapAnalyzing,
-  ClearingLed,
+  ModeExecuting,
+  ClearingLed
 };
 
 CRGB leds[LEDSAMOUNT];
