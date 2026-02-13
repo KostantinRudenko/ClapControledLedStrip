@@ -28,15 +28,21 @@ void GetAmplitude(uint16_t& Amplitude) {
 
 void AlarmMode() {
 	static uint8_t RedColor = 0;
+	static bool isForward = true;
 
 	for (uint8_t i = 0; i < LEDSAMOUNT; i++) {
 		leds[i] = CRGB(RedColor,0,0);
 	}
 
-	if (RedColor <= 240)
+	if (isForward && RedColor <= 240)
 		RedColor = RedColor + 15;
 	else
+		isForward = false;
+
+	if (!isForward && RedColor > 0)
 		RedColor = RedColor - 15;
+	else
+		isForward = true;
 
 	FastLED.show();
 }
