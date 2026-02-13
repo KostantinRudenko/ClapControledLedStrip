@@ -21,7 +21,7 @@ void setup() {
   pinMode(DPIN, OUTPUT);
   pinMode(MPIN, INPUT);
 
-  FastLED.addLeds<NEOPIXEL, DPIN>(leds, LEDSAMOUNT);
+  SetupLedStrip();
 
   Serial.begin(115200);
 }
