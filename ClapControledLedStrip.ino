@@ -57,10 +57,11 @@ void loop() {
         }
       }
 
-      if (millis() - clapWaitingStartTime > ClapWaitingTime && clapsAmount != 0) {
-        Serial.println("Clearing the strip");
-        st = ClearingLed;
-      }
+      if (millis() - clapWaitingStartTime > ClapWaitingTime && clapsAmount != 0)
+        st = ClapAnalyzing;
+      else if (clapsAmount == 0)
+        st = Executting;
+
       break;
 
     case ClapAnalyzing:
@@ -71,5 +72,7 @@ void loop() {
       clapsAmount = 0;
       break;
 
+    case Executting:
+      st = ClapChecking; // temporary
   }
 }
