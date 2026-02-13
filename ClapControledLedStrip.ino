@@ -2,8 +2,7 @@
 #include "FastLED.h"
 
 #include "global.h"
-
-CRGB leds[LEDSAMOUNT];
+#include "functions.h"
 
 uint8_t st = 0;
 uint8_t clapsAmount = 0;
@@ -65,10 +64,7 @@ void loop() {
       break;
 
     case ClearingLed:
-      for (uint8_t i = 0; i < LEDSAMOUNT; i++) {
-        leds[i] = CRGB::Black;
-      }
-      FastLED.show();
+      ClearStrip();
       st = ClapAnalyzing;
       break;
 

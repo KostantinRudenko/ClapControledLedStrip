@@ -3,7 +3,7 @@
 
 #define DPIN 5 // Control Pin
 #define MPIN A0 // Microphone Pin
-#define NoiseLimit 400
+#define Limit 400
 #define ClapWaitingTime 1500
 
 enum LedStates {
@@ -19,3 +19,6 @@ enum deviceStates {
   TurnLedOFF,
   BlinkLed
 };
+
+CRGB leds[LEDSAMOUNT];
+
