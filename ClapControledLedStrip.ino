@@ -57,8 +57,10 @@ void loop() {
         }
       }
 
-      if (millis() - clapWaitingStartTime > ClapWaitingTime && clapsAmount != 0)
+      if (millis() - clapWaitingStartTime > ClapWaitingTime && clapsAmount != 0) {
+        ClearStrip();
         st = ClapAnalyzing;
+      }
       else if (clapsAmount == 0)
         st = Executting;
 
