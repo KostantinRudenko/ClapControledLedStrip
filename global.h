@@ -14,11 +14,14 @@ enum LedStates {
 enum deviceStates {
   ClapChecking,
   ClapAnalyzing,
-  ClearingLed,
-  TurnLedON,
-  TurnLedOFF,
-  BlinkLed
+  Executting
 };
+
+enum modes {
+  BlueColorMode,
+  PinkWaveMode,
+  RedAlarmMode
+}
 
 CRGB leds[LEDSAMOUNT];
 
