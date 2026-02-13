@@ -21,7 +21,7 @@ enum modes {
   BlueColorMode,
   PinkWaveMode,
   RedAlarmMode
-}
+};
 
 CRGB leds[LEDSAMOUNT];
 
