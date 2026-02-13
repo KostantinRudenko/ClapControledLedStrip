@@ -5,12 +5,9 @@
 #include "functions.h"
 
 uint8_t st = 0;
-uint8_t clapsAmount = 0;
-uint8_t ledSt = OFF;
+uint8_t curMode = 0;
 
-uint16_t value;
-uint16_t minV = 1023;
-uint16_t maxV = 0;
+uint8_t clapsAmount = 0;
 
 uint32_t start = 0;
 uint32_t clapWaitingStartTime = 0;
@@ -60,14 +57,12 @@ void loop() {
       break;
 
     case ClapAnalyzing:
-      switch (clapsAmount) {
-        default:
-          st = ClapChecking;
-      }
+      curMode = clapsAmount;
       clapsAmount = 0;
       break;
 
     case Executting:
-      st = ClapChecking; // temporary
+      switch (curMode) {}
+      st = ClapChecking;
   }
 }
