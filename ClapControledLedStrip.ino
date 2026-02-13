@@ -66,5 +66,14 @@ void loop() {
       clapsAmount = 0;
       break;
 
+    case ModeExecuting:
+      switch (curMode) {
+        case LedAlarmMode:
+          AlarmMode();
+          Serial.println("Executed alarm mode");
+      }
+
+      st = ClapChecking;
+
   }
 }
