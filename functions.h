@@ -25,3 +25,18 @@ void GetAmplitude(uint16_t& Amplitude) {
 	}
 	Amplitude = maxV - minV;
 }
+
+void AlarmMode() {
+	static uint8_t RedColor = 0;
+
+	for (uint8_t i = 0; i < LEDSAMOUNT; i++) {
+		leds[i] = CRGB(RedColor,0,0);
+	}
+
+	if (RedColor <= 240)
+		RedColor = RedColor + 15;
+	else
+		RedColor = RedColor - 15;
+
+	FastLED.show();
+}
