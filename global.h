@@ -15,9 +15,6 @@ enum deviceStates {
   ClapChecking,
   ClapAnalyzing,
   ClearingLed,
-  TurnLedON,
-  TurnLedOFF,
-  BlinkLed
 };
 
 CRGB leds[LEDSAMOUNT];
