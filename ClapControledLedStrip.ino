@@ -63,54 +63,12 @@ void loop() {
       }
       break;
 
-    case ClearingLed:
-      ClearStrip();
-      st = ClapAnalyzing;
-      break;
-
     case ClapAnalyzing:
       switch (clapsAmount) {
-        case 1:
-          if (ledSt == OFF)
-            st = TurnLedON;
-          else
-            st = TurnLedOFF;
-          break;
-        case 2:
-          st = BlinkLed;
-          break;
         default:
           st = ClapChecking;
       }
       clapsAmount = 0;
-      break;
-
-    case TurnLedON:
-      leds[0] = CRGB::Red;
-      FastLED.show();
-      Serial.println("Led is ON");
-      ledSt = ON;
-      st = ClapChecking;
-      break;
-
-    case TurnLedOFF:
-      leds[0] = CRGB::Black;
-      FastLED.show();
-      Serial.println("Led is OFF");
-      ledSt = OFF;
-      st = ClapChecking;
-      break;
-    
-    case BlinkLed:
-      leds[0] = CRGB::Black;
-      FastLED.show();
-      delay(500);
-      leds[0] = CRGB::Red;
-      FastLED.show();
-      delay(500);
-      leds[0] = CRGB::Black;
-      FastLED.show();
-      st = ClapChecking;
       break;
 
   }
