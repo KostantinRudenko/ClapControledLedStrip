@@ -14,7 +14,7 @@ enum LedStates {
 };
 
 enum modes {
-  AlarmMode = 3
+  LedAlarmMode = 3
 };
 
 enum deviceStates {
