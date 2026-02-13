@@ -1,28 +1,8 @@
 #include <Arduino.h>
 #include "FastLED.h"
 
-#define LEDSAMOUNT 5
-
-#define DPIN 5 // Control Pin
-#define MPIN A0 // Microphone Pin
-#define Limit 400
-#define ClapWaitingTime 1500
-
-CRGB leds[LEDSAMOUNT];
-
-enum LedStates {
-  OFF=0,
-  ON
-};
-
-enum deviceStates {
-  ClapChecking,
-  ClapAnalyzing,
-  ClearingLed,
-  TurnLedON,
-  TurnLedOFF,
-  BlinkLed
-};
+#include "global.h"
+#include "functions.h"
 
 uint8_t st = 0;
 uint8_t clapsAmount = 0;
@@ -84,10 +64,7 @@ void loop() {
       break;
 
     case ClearingLed:
-      for (uint8_t i = 0; i < LEDSAMOUNT; i++) {
-        leds[i] = CRGB::Black;
-      }
-      FastLED.show();
+      ClearStrip();
       st = ClapAnalyzing;
       break;
 
