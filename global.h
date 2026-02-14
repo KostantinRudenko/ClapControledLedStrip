@@ -6,6 +6,10 @@
 #define Limit 400
 #define ClapWaitingTime 1500
 
+#define MinBlueValue 0
+#define MaxBlueValue 150
+#define BlueValueDelta 1
+
 enum LedStates {
   OFF=0,
   ON
@@ -20,7 +24,8 @@ enum deviceStates {
 enum modes {
   BlueColorMode = 1,
   PinkWaveMode,
-  RedAlarmMode
+  RedAlarmMode,
+  BlueColorDown
 };
 
 CRGB leds[LEDSAMOUNT];
