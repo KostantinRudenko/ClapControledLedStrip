@@ -18,7 +18,7 @@ enum deviceStates {
 };
 
 enum modes {
-  BlueColorMode,
+  BlueColorMode = 1,
   PinkWaveMode,
   RedAlarmMode
 };

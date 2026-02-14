@@ -31,11 +31,14 @@ void loop() {
       GetAmp(A);
 
       if (!isClapDetected && A > Limit) {
+        ClearStrip();
         clapsAmount++;
         isClapDetected = true;
         clapWaitingStartTime = millis();
 
-        leds[clapsAmount-1] = CRGB(0,0,10);
+        for (uint8_t i = 0; i < clapsAmount; i++) {
+          leds[i] = CRGB(0,0,10);
+        }
         FastLED.show();
 
         Serial.print("Clap detected. New amount: ");
@@ -57,12 +60,20 @@ void loop() {
       break;
 
     case ClapAnalyzing:
-      curMode = clapsAmount;
+      if (curMode != clapsAmount)
+        curMode = clapsAmount;
+      else
+        curMode = 0;
+
       clapsAmount = 0;
+      st = Executting;
       break;
 
     case Executting:
-      switch (curMode) {}
+      switch (curMode) {
+        case RedAlarmMode:
+          AlarmModeFunction();
+      }
       st = ClapChecking;
   }
 }
