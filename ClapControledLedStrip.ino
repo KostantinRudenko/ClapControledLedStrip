@@ -60,7 +60,11 @@ void loop() {
       break;
 
     case ClapAnalyzing:
-      curMode = clapsAmount;
+      if (curMode != clapsAmount)
+        curMode = clapsAmount;
+      else
+        curMode = 0;
+
       clapsAmount = 0;
       st = Executting;
       break;
