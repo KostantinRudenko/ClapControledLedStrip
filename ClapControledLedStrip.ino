@@ -65,8 +65,10 @@ void loop() {
     case ClapAnalyzing:
       if (curMode != clapsAmount)
         curMode = clapsAmount;
-      else
+      else {
         curMode = 0;
+        ClearStrip();
+      }
 
       clapsAmount = 0;
       st = Executting;
