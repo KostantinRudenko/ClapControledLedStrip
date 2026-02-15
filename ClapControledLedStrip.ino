@@ -76,8 +76,12 @@ void loop() {
 
     case Executting:
       switch (curMode) {
+        case 0:
+          st = ClapChecking;
+          break;
         case RedAlarmMode:
           AlarmModeFunction();
+          st = ClapChecking;
           break;
         case BlueColorMode:
           if (isFilledWithBlue) {
@@ -89,6 +93,7 @@ void loop() {
           if (BlueColorFillUp()) {
             isFilledWithBlue = true;
             curMode = 0;
+            st = ClapChecking;
             Serial.println("Strip is filled up");
           }
           break;
@@ -96,10 +101,10 @@ void loop() {
           if (BlueColorFillDown()) {
             curMode = ClapChecking;
             isFilledWithBlue = false;
+            st = ClapChecking;
             Serial.println("Strip is filled down");
           }
           break;
       }
-      st = ClapChecking;
   }
 }
