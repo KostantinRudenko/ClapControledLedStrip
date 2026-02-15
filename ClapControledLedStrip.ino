@@ -39,7 +39,7 @@ void loop() {
         clapWaitingStartTime = millis();
 
         for (uint8_t i = 0; i < clapsAmount; i++) {
-          leds[i] = CRGB(0,0,10);
+          leds[i] = CRGB(0,10,0);
         }
         FastLED.show();
 
