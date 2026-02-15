@@ -31,13 +31,13 @@ void AlarmModeFunction() {
 	static bool isForward = true;
 
 	if (isForward && RedColor <= 240) {
-		RedColor = RedColor + 15;
+		RedColor = RedColor + 10;
 	}
 	else
 		isForward = false;
 
 	if (!isForward && RedColor > 0) {
-		RedColor = RedColor - 15;
+		RedColor = RedColor - 10;
 	}
 	else
 		isForward = true;
