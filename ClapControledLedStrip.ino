@@ -32,7 +32,8 @@ void loop() {
       GetAmp(A);
 
       if (!isClapDetected && A > Limit) {
-        ClearStrip();
+        if (!isFilledWithBlue)
+          ClearStrip();
         clapsAmount++;
         isClapDetected = true;
         clapWaitingStartTime = millis();
@@ -52,7 +53,8 @@ void loop() {
       }
 
       if (millis() - clapWaitingStartTime > ClapWaitingTime && clapsAmount != 0) {
-        ClearStrip();
+        if (!isFilledWithBlue)
+          ClearStrip();
         st = ClapAnalyzing;
       }
       else if (clapsAmount == 0)
