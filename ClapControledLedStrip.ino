@@ -80,6 +80,7 @@ void loop() {
           st = ClapChecking;
           break;
         case RedAlarmMode:
+          isFilledWithBlue = false;
           AlarmModeFunction();
           st = ClapChecking;
           break;
