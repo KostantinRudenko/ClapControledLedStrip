@@ -47,3 +47,41 @@ void AlarmModeFunction() {
 	}
 	FastLED.show();
 }
+
+bool BlueColorFillUp() {
+	static uint8_t color = MinBlueValue;
+	
+	if (color < MaxBlueValue) {
+		color = color + BlueValueDelta;
+	}
+	else {
+		color = MinBlueValue;
+		return true;
+	}
+
+	for (uint8_t i = 0; i < LEDSAMOUNT; i++) {
+		leds[i] = CRGB(0,0,color);
+	}
+	FastLED.show();
+
+	return false;
+}
+
+bool BlueColorFillDown() {
+	static uint8_t color = MaxBlueValue;
+	
+	if (color > MinBlueValue) {
+		color = color - BlueValueDelta;
+	}
+	else if (color == 0) {
+		color = MaxBlueValue;
+		return true;
+	}
+
+	for (uint8_t i = 0; i < LEDSAMOUNT; i++) {
+		leds[i] = CRGB(0,0,color);
+	}
+	FastLED.show();
+
+	return false;
+}

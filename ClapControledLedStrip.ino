@@ -13,6 +13,7 @@ uint32_t start = 0;
 uint32_t clapWaitingStartTime = 0;
 
 bool isClapDetected = false;
+bool isFilledWithBlue = false;
 
 void setup() {
   pinMode(DPIN, OUTPUT);
@@ -31,7 +32,8 @@ void loop() {
       GetAmp(A);
 
       if (!isClapDetected && A > Limit) {
-        ClearStrip();
+        if (!isFilledWithBlue)
+          ClearStrip();
         clapsAmount++;
         isClapDetected = true;
         clapWaitingStartTime = millis();
@@ -51,7 +53,8 @@ void loop() {
       }
 
       if (millis() - clapWaitingStartTime > ClapWaitingTime && clapsAmount != 0) {
-        ClearStrip();
+        if (!isFilledWithBlue)
+          ClearStrip();
         st = ClapAnalyzing;
       }
       else if (clapsAmount == 0)
@@ -73,6 +76,27 @@ void loop() {
       switch (curMode) {
         case RedAlarmMode:
           AlarmModeFunction();
+          break;
+        case BlueColorMode:
+          if (isFilledWithBlue) {
+            Serial.println("Going to filling down the strip");
+            curMode = BlueColorDown;
+            break;
+          }
+
+          if (BlueColorFillUp()) {
+            isFilledWithBlue = true;
+            curMode = 0;
+            Serial.println("Strip is filled up");
+          }
+          break;
+        case BlueColorDown:
+          if (BlueColorFillDown()) {
+            curMode = ClapChecking;
+            isFilledWithBlue = false;
+            Serial.println("Strip is filled down");
+          }
+          break;
       }
       st = ClapChecking;
   }
