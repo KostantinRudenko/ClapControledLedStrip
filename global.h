@@ -6,8 +6,9 @@
 #define Limit 400
 #define ClapWaitingTime 1500
 
-#define MinBlueValue 0
-#define MaxBlueValue 150
+#define MinColorValue CRGB(0,0,0)
+#define MaxBlueValue CRGB(0,0,200)
+#define MaxRedValue CRGB(200,0,0)
 #define BlueValueDelta 1
 
 enum LedStates {
