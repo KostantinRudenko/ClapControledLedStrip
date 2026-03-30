@@ -1,9 +1,9 @@
 
-#define LEDSAMOUNT 5
+#define LEDSAMOUNT 30
 
 #define DPIN 5 // Control Pin
 #define MPIN A1 // Microphone Pin
-#define Limit 350
+#define Limit 400
 #define ClapWaitingTime 1500
 
 #define MinColorValue CRGB(0,0,0)
