@@ -91,7 +91,7 @@ void loop() {
             break;
           }
 
-          if (BlueColorFillUp()) {
+          if (ColorFillUp(MaxBlueValue)) {
             isFilledWithBlue = true;
             curMode = 0;
             st = ClapChecking;
@@ -99,7 +99,7 @@ void loop() {
           }
           break;
         case BlueColorDown:
-          if (BlueColorFillDown()) {
+          if (ColorFillDown(MinColorValue)) {
             curMode = ClapChecking;
             isFilledWithBlue = false;
             st = ClapChecking;

@@ -24,6 +24,7 @@ void GetAmp(uint16_t& A) {
 	}
 
 	A = maxV - minV;
+	Serial.println(A);
 }
 
 void AlarmModeFunction() {
@@ -48,40 +49,39 @@ void AlarmModeFunction() {
 	FastLED.show();
 }
 
-bool BlueColorFillUp() {
-	static uint8_t color = MinBlueValue;
+bool ColorFillUp(const CRGB& MaxValue) {
+	static CRGB curColor = CRGB(0,0,0);
 	
-	if (color < MaxBlueValue) {
-		color = color + BlueValueDelta;
-	}
-	else {
-		color = MinBlueValue;
-		return true;
+	if (curColor.r < MaxValue.r) curColor.r++;
+	if (curColor.g < MaxValue.g) curColor.g++;
+	if (curColor.b < MaxValue.b) curColor.b++;
+
+	for (uint8_t i=0; i < LEDSAMOUNT; i++) {
+		leds[i] = curColor;
 	}
 
-	for (uint8_t i = 0; i < LEDSAMOUNT; i++) {
-		leds[i] = CRGB(0,0,color);
-	}
 	FastLED.show();
 
+	if (curColor == MaxValue)
+		return true;
 	return false;
+
 }
 
-bool BlueColorFillDown() {
-	static uint8_t color = MaxBlueValue;
+bool ColorFillDown(const CRGB& MinValue) {
+	static CRGB curColor = leds[0];
 	
-	if (color > MinBlueValue) {
-		color = color - BlueValueDelta;
-	}
-	else if (color == 0) {
-		color = MaxBlueValue;
-		return true;
-	}
+	if (curColor.r > MinValue.r) curColor.r--;
+	if (curColor.g > MinValue.g) curColor.g--;
+	if (curColor.b > MinValue.b) curColor.b--;
 
 	for (uint8_t i = 0; i < LEDSAMOUNT; i++) {
-		leds[i] = CRGB(0,0,color);
+		leds[i] = curColor;
 	}
+
 	FastLED.show();
 
+	if (curColor == MinValue)
+		return true;
 	return false;
 }

@@ -2,12 +2,13 @@
 #define LEDSAMOUNT 5
 
 #define DPIN 5 // Control Pin
-#define MPIN A0 // Microphone Pin
-#define Limit 400
+#define MPIN A1 // Microphone Pin
+#define Limit 350
 #define ClapWaitingTime 1500
 
-#define MinBlueValue 0
-#define MaxBlueValue 150
+#define MinColorValue CRGB(0,0,0)
+#define MaxBlueValue CRGB(0,0,200)
+#define MaxRedValue CRGB(200,0,0)
 #define BlueValueDelta 1
 
 enum LedStates {
