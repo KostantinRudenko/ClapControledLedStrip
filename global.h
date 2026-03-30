@@ -1,8 +1,8 @@
 
-#define LEDSAMOUNT 5
+#define LEDSAMOUNT 30
 
 #define DPIN 5 // Control Pin
-#define MPIN A0 // Microphone Pin
+#define MPIN A1 // Microphone Pin
 #define Limit 400
 #define ClapWaitingTime 1500
 
