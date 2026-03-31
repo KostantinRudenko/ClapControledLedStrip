@@ -49,39 +49,26 @@ void AlarmModeFunction() {
 	FastLED.show();
 }
 
-bool ColorFillUp(const CRGB& MaxValue) {
-	static CRGB curColor = CRGB(0,0,0);
-	
-	if (curColor.r < MaxValue.r) curColor.r++;
-	if (curColor.g < MaxValue.g) curColor.g++;
-	if (curColor.b < MaxValue.b) curColor.b++;
+bool FillFromColorToColor(const CRGB& FromColor, const CRGB& ToColor) {
+	static CRGB curColor = FromColor;
+
+	if (curColor.r < ToColor.r) curColor.r++;
+	if (curColor.g < ToColor.g) curColor.g++;
+	if (curColor.b < ToColor.b) curColor.b++;
+
+	if (curColor.r > ToColor.r) curColor.r--;
+	if (curColor.g > ToColor.g) curColor.g--;
+	if (curColor.b > ToColor.b) curColor.b--;
 
 	for (uint8_t i=0; i < LEDSAMOUNT; i++) {
 		leds[i] = curColor;
 	}
-
 	FastLED.show();
 
-	if (curColor == MaxValue)
+	if (curColor.r == ToColor.r &&
+	    curColor.g == ToColor.g &&
+	    curColor.b == ToColor.b)
 		return true;
 	return false;
 
-}
-
-bool ColorFillDown(const CRGB& MinValue) {
-	static CRGB curColor = leds[0];
-	
-	if (curColor.r > MinValue.r) curColor.r--;
-	if (curColor.g > MinValue.g) curColor.g--;
-	if (curColor.b > MinValue.b) curColor.b--;
-
-	for (uint8_t i = 0; i < LEDSAMOUNT; i++) {
-		leds[i] = curColor;
-	}
-
-	FastLED.show();
-
-	if (curColor == MinValue)
-		return true;
-	return false;
 }
