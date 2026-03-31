@@ -24,7 +24,6 @@ void GetAmp(uint16_t& A) {
 	}
 
 	A = maxV - minV;
-	Serial.println(A);
 }
 
 void AlarmModeFunction() {
