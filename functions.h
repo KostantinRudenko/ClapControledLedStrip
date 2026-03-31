@@ -11,7 +11,7 @@ void ClearStrip() {
 	FastLED.show();
 }
 
-void GetAmp(uint16_t& A) {
+void GetAmplitude(uint16_t& A) {
 	uint16_t maxV = 0;
 	uint16_t minV = 1023;
 	uint32_t start = millis();
