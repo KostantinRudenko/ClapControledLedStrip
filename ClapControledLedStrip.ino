@@ -4,17 +4,17 @@
 #include "global.h"
 #include "functions.h"
 #include "timer.h"
+#include "ledStrip.h"
 
 uint8_t deviceSt = 0;
 uint8_t deviceMode = 0;
 
 Timer clapTimer;
+LedStrip led;
 
 void setup() {
   pinMode(DPIN, OUTPUT);
   pinMode(MPIN, INPUT);
-
-  SetupLedStrip();
 
   Serial.begin(115200);
 }
@@ -48,19 +48,19 @@ void loop() {
       deviceSt = clapsAmount + 2;
       break;
 
-    case 4:
+    case 3:
       Serial.println("Mode 2");
       deviceSt = 0;
       break;
 
-    case 5:
+    case 4:
       Serial.println("Mode 3");
       deviceSt = 0;
       break;
 
-    case 3:
-      Serial.println("Mode 3");
-      deviceSt = 0;
+    case 5:
+      led.alarmMode();
+      //deviceSt = 0;
       break;
 
     default:
