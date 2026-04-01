@@ -26,6 +26,12 @@ void GetAmplitude(uint16_t& A) {
 	A = maxV - minV;
 }
 
+bool isClap(uint16_t& A) {
+	if (A >= Limit)
+		return true;
+	return false;
+}
+
 void AlarmModeFunction() {
 	static uint8_t RedColor = 0;
 	static bool isForward = true;
