@@ -16,7 +16,7 @@ void GetAmplitude(uint16_t& A) {
 	uint16_t minV = 1023;
 	uint32_t start = millis();
 
-	while (millis() - start < 20) {
+	while (millis() - start < 100) {
 		uint16_t v = analogRead(MPIN);
 
 		if (maxV < v) maxV = v;

@@ -3,17 +3,12 @@
 
 #include "global.h"
 #include "functions.h"
+#include "timer.h"
 
-uint8_t st = 0;
-uint8_t curMode = 0;
+uint8_t deviceSt = 0;
+uint8_t currentMode = 0;
 
-uint8_t clapsAmount = 0;
-
-uint32_t start = 0;
-uint32_t clapWaitingStartTime = 0;
-
-bool isClapDetected = false;
-bool isFilledWithBlue = false;
+Timer clapTimer;
 
 void setup() {
   pinMode(DPIN, OUTPUT);
@@ -25,87 +20,34 @@ void setup() {
 }
 
 void loop() {
-  switch (st) {
-    case ClapChecking:
-
+  switch (deviceSt) {
+    case 0:
       static uint16_t A;
-      GetAmp(A);
+      static uint8_t  clapsAmount = 0;
+      deviceSt = 1;
+      break;
 
-      if (!isClapDetected && A > Limit) {
-        if (!isFilledWithBlue)
-          ClearStrip();
+    case 1:
+      GetAmplitude(A);
+
+      if (A <= Limit && clapTimer.wait(3000))
+        deviceSt = 2;
+
+      if (isClap(A)) {
         clapsAmount++;
-        isClapDetected = true;
-        clapWaitingStartTime = millis();
-
-        for (uint8_t i = 0; i < clapsAmount; i++) {
-          leds[i] = CRGB(0,10,0);
-        }
-        FastLED.show();
-
-        Serial.print("Clap detected. New amount: ");
+        clapTimer.reset();
+        Serial.print("Claps = ");
         Serial.println(clapsAmount);
       }
-
-      if (isClapDetected && A < Limit) {
-        isClapDetected = false;
-        Serial.println("Amplitude is lower than limit");
-      }
-
-      if (millis() - clapWaitingStartTime > ClapWaitingTime && clapsAmount != 0) {
-        if (!isFilledWithBlue)
-          ClearStrip();
-        st = ClapAnalyzing;
-      }
-      else if (clapsAmount == 0)
-        st = Executting;
-
       break;
 
-    case ClapAnalyzing:
-      if (curMode != clapsAmount)
-        curMode = clapsAmount;
-      else {
-        curMode = 0;
-        ClearStrip();
-      }
-
-      clapsAmount = 0;
-      st = Executting;
+    case 2:
+      Serial.println("Timer end");
+      deviceSt = 3;
       break;
 
-    case Executting:
-      switch (curMode) {
-        case 0:
-          st = ClapChecking;
-          break;
-        case RedAlarmMode:
-          isFilledWithBlue = false;
-          AlarmModeFunction();
-          st = ClapChecking;
-          break;
-        case BlueColorMode:
-          if (isFilledWithBlue) {
-            Serial.println("Going to filling down the strip");
-            curMode = BlueColorDown;
-            break;
-          }
+    case 3:
+      break;
 
-          if (FillFromColorToColor(MinColorValue, MaxBlueValue)) {
-            isFilledWithBlue = true;
-            curMode = 0;
-            st = ClapChecking;
-            Serial.println("Strip is filled up");
-          }
-          break;
-        case BlueColorDown:
-          if (FillFromColorToColor(MaxBlueValue, MinColorValue)) {
-            curMode = ClapChecking;
-            isFilledWithBlue = false;
-            st = ClapChecking;
-            Serial.println("Strip is filled down");
-          }
-          break;
-      }
   }
 }
