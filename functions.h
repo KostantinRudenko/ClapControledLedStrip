@@ -1,15 +1,17 @@
 #include "FastLED.h"
 
-void SetupLedStrip() {
-	FastLED.addLeds<NEOPIXEL, DPIN>(leds, LEDSAMOUNT);
-}
+//void SetupLedStrip() {
+	//FastLED.addLeds<NEOPIXEL, DPIN>(leds, LEDSAMOUNT);
+//}
 
+/*
 void ClearStrip() {
 	for (uint8_t i = 0; i < LEDSAMOUNT; i++) {
 		leds[i] = CRGB::Black;
 	}
 	FastLED.show();
 }
+*/
 
 void GetAmplitude(uint16_t& A) {
 	uint16_t maxV = 0;
@@ -32,6 +34,7 @@ bool isClap(uint16_t& A) {
 	return false;
 }
 
+/*
 void AlarmModeFunction() {
 	static uint8_t RedColor = 0;
 	static bool isForward = true;
@@ -77,3 +80,4 @@ bool FillFromColorToColor(const CRGB& FromColor, const CRGB& ToColor) {
 	return false;
 
 }
+*/
