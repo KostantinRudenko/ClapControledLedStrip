@@ -6,6 +6,7 @@
 LedStrip::LedStrip() {
 	_ledPin = DATA_PIN;
 	_ledsAmount = LEDS_AMOUNT;
+	_currentMode = 0;
 	Serial.print("Amount = ");
 	Serial.println(LEDS_AMOUNT);
 
@@ -18,6 +19,24 @@ void LedStrip::clear() {
 		_leds[i] = CRGB::Black;
 	}
 	FastLED.show();
+}
+
+void LedStrip::setMode(uint8_t mode) {
+	if (_currentMode != mode ||
+	   (_currentMode == BlueWave && mode == BlueWave))
+		_currentMode = mode;
+	else
+		_currentMode = NoMode;
+
+	Serial.print("Current mode = ");
+	Serial.println(_currentMode);
+}
+
+bool LedStrip::executeMode() {
+	if (_currentMode == Alarm) {
+		alarmMode();
+	}
+	return true;
 }
 
 bool LedStrip::fillFromColorToColor(const CRGB& FromColor, const CRGB& ToColor) {
