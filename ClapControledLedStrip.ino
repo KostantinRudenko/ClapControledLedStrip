@@ -26,42 +26,66 @@ void loop() {
       static uint8_t  clapsAmount = 0;
       clapTimer.reset();
       deviceSt = 1;
-      clapsAmount = 0;
       break;
 
     case 1:
-      GetAmplitude(A);
-
-      if (clapsAmount != 0 && clapTimer.wait(3000))
-        deviceSt = 2;
-
-      if (isClap(A)) {
-        clapsAmount++;
-        clapTimer.reset();
-        Serial.print("Claps = ");
-        Serial.println(clapsAmount);
-      }
+      clapTimer.reset();
+      deviceSt = 2;
       break;
 
     case 2:
-      Serial.println("Timer end");
-      deviceSt = clapsAmount + 2;
+      GetAmplitude(A);
+
+      if (clapsAmount != 0 && clapTimer.wait(3000)) {
+        deviceSt = 3;
+        break;
+      }
+
+      if (isClap(A)) {
+        clapsAmount++;
+        Serial.print("Claps = ");
+        Serial.println(clapsAmount);
+        clapTimer.reset();
+      }
+
+      deviceSt = 5;
       break;
 
     case 3:
-      Serial.println("Mode 2");
-      deviceSt = 0;
+      //Serial.println("Timer end");
+      //deviceSt = clapsAmount + 2;
+      deviceSt = 4;
       break;
 
     case 4:
-      Serial.println("Mode 3");
-      deviceSt = 0;
+      led.setMode(clapsAmount);
+      clapsAmount = 0;
+      deviceSt = 5;
       break;
 
     case 5:
+      if (led.executeMode()) {
+        deviceSt = 2;
+      }
+      break;
+
+    /* case 3:
+      Serial.println("Mode 2");
+      deviceSt = 0;
+      break;
+      */
+
+    /* case 4:
+      Serial.println("Mode 3");
+      deviceSt = 0;
+      break;
+      */
+
+    /* case 5:
       led.alarmMode();
       //deviceSt = 0;
       break;
+      */
 
     default:
       deviceSt = 0;
