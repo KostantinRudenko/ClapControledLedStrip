@@ -17,9 +17,9 @@ enum LedStates {
 };
 
 enum deviceStates {
-  ClapChecking,
-  ClapAnalyzing,
-  Executting
+  WaitClaps,
+  AnalyzeClaps,
+  ExecuteMode
 };
 
 enum modes {

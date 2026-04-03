@@ -3,109 +3,93 @@
 
 #include "global.h"
 #include "functions.h"
+#include "timer.h"
+#include "ledStrip.h"
+#include "microphone.h"
 
-uint8_t st = 0;
-uint8_t curMode = 0;
+uint8_t deviceSt = 0;
+uint8_t deviceMode = 0;
 
-uint8_t clapsAmount = 0;
-
-uint32_t start = 0;
-uint32_t clapWaitingStartTime = 0;
-
-bool isClapDetected = false;
-bool isFilledWithBlue = false;
+Timer clapTimer;
+LedStrip led;
+Microphone micro;
 
 void setup() {
   pinMode(DPIN, OUTPUT);
   pinMode(MPIN, INPUT);
 
-  SetupLedStrip();
-
   Serial.begin(115200);
 }
 
 void loop() {
-  switch (st) {
-    case ClapChecking:
-
+  switch (deviceSt) {
+    case 0:
       static uint16_t A;
-      GetAmp(A);
+      static uint8_t  clapsAmount = 0;
+      clapTimer.reset();
+      deviceSt = 1;
+      break;
 
-      if (!isClapDetected && A > Limit) {
-        if (!isFilledWithBlue)
-          ClearStrip();
+    case 1:
+      clapTimer.reset();
+      deviceSt = 2;
+      break;
+
+    case 2:
+
+      if (clapsAmount != 0 && clapTimer.wait(3000)) {
+        deviceSt = 3;
+        break;
+      }
+
+      if (micro.isClap()) {
         clapsAmount++;
-        isClapDetected = true;
-        clapWaitingStartTime = millis();
-
-        for (uint8_t i = 0; i < clapsAmount; i++) {
-          leds[i] = CRGB(0,10,0);
-        }
-        FastLED.show();
-
-        Serial.print("Clap detected. New amount: ");
+        Serial.print("Claps = ");
         Serial.println(clapsAmount);
+        clapTimer.reset();
       }
 
-      if (isClapDetected && A < Limit) {
-        isClapDetected = false;
-        Serial.println("Amplitude is lower than limit");
-      }
-
-      if (millis() - clapWaitingStartTime > ClapWaitingTime && clapsAmount != 0) {
-        if (!isFilledWithBlue)
-          ClearStrip();
-        st = ClapAnalyzing;
-      }
-      else if (clapsAmount == 0)
-        st = Executting;
-
+      deviceSt = 5;
       break;
 
-    case ClapAnalyzing:
-      if (curMode != clapsAmount)
-        curMode = clapsAmount;
-      else {
-        curMode = 0;
-        ClearStrip();
-      }
+    case 3:
+      //Serial.println("Timer end");
+      //deviceSt = clapsAmount + 2;
+      deviceSt = 4;
+      break;
 
+    case 4:
+      led.setMode(clapsAmount);
       clapsAmount = 0;
-      st = Executting;
+      deviceSt = 5;
       break;
 
-    case Executting:
-      switch (curMode) {
-        case 0:
-          st = ClapChecking;
-          break;
-        case RedAlarmMode:
-          isFilledWithBlue = false;
-          AlarmModeFunction();
-          st = ClapChecking;
-          break;
-        case BlueColorMode:
-          if (isFilledWithBlue) {
-            Serial.println("Going to filling down the strip");
-            curMode = BlueColorDown;
-            break;
-          }
-
-          if (FillFromColorToColor(MinColorValue, MaxBlueValue)) {
-            isFilledWithBlue = true;
-            curMode = 0;
-            st = ClapChecking;
-            Serial.println("Strip is filled up");
-          }
-          break;
-        case BlueColorDown:
-          if (FillFromColorToColor(MaxBlueValue, MinColorValue)) {
-            curMode = ClapChecking;
-            isFilledWithBlue = false;
-            st = ClapChecking;
-            Serial.println("Strip is filled down");
-          }
-          break;
+    case 5:
+      if (led.executeMode()) {
+        deviceSt = 2;
       }
+      break;
+
+    /* case 3:
+      Serial.println("Mode 2");
+      deviceSt = 0;
+      break;
+      */
+
+    /* case 4:
+      Serial.println("Mode 3");
+      deviceSt = 0;
+      break;
+      */
+
+    /* case 5:
+      led.alarmMode();
+      //deviceSt = 0;
+      break;
+      */
+
+    default:
+      deviceSt = 0;
+      break;
   }
 }
