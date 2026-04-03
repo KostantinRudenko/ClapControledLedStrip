@@ -1,4 +1,5 @@
 #include "Arduino.h"
+#include "global.h"
 #include "microphone.h"
 #include "timer.h"
 
@@ -9,8 +10,8 @@ uint16_t Microphone::getAmplitude() {
 	uint16_t A;
 	amplitudeTimer.reset();
 
-	while (!amplitudeTimer.wait(200)) {
-		uint16_t v = analogRead(A1);
+	while (!amplitudeTimer.wait(AMPLITUDE_DETECT_TIME)) {
+		uint16_t v = analogRead(MPIN);
 
 		if (maxV < v) maxV = v;
 		if (minV > v) minV = v;
@@ -21,7 +22,7 @@ uint16_t Microphone::getAmplitude() {
 }
 
 bool Microphone::isClap() {
-	if (this->getAmplitude() >= 350)
+	if (this->getAmplitude() >= AMPLITUDE_LIMIT)
 		return true;
 	return false;
 }

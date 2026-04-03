@@ -63,17 +63,17 @@ bool LedStrip::fillFromColorToColor(const CRGB& FromColor, const CRGB& ToColor) 
 }
 
 void LedStrip::alarmMode() {
-	static uint8_t RedColor = 0;
+	static uint8_t RedColor = MinAlarmValue.r;
 	static bool isForward = true;
 
-	if (isForward && RedColor <= 240) {
-		RedColor = RedColor + 1;
+	if (isForward && RedColor <= MaxAlarmValue.r) {
+		RedColor = RedColor + ALARM_COLOR_CHANGE_DELTA;
 	}
 	else
 		isForward = false;
 
-	if (!isForward && RedColor > 0) {
-		RedColor = RedColor - 1;
+	if (!isForward && RedColor > MinAlarmValue.r) {
+		RedColor = RedColor - ALARM_COLOR_CHANGE_DELTA;
 	}
 	else
 		isForward = true;

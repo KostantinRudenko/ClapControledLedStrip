@@ -1,4 +1,5 @@
 #include "FastLED.h"
+#include "global.h"
 
 //void SetupLedStrip() {
 	//FastLED.addLeds<NEOPIXEL, DPIN>(leds, LEDSAMOUNT);
@@ -29,7 +30,7 @@ void GetAmplitude(uint16_t& A) {
 }
 
 bool isClap(uint16_t& A) {
-	if (A >= Limit)
+	if (A >= AMPLITUDE_LIMIT)
 		return true;
 	return false;
 }

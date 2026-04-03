@@ -37,7 +37,7 @@ void loop() {
 
     case 2:
 
-      if (clapsAmount != 0 && clapTimer.wait(3000)) {
+      if (clapsAmount != 0 && clapTimer.wait(WAITING_CLAP_TIME)) {
         deviceSt = 3;
         break;
       }

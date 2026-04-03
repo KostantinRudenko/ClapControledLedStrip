@@ -9,7 +9,10 @@
 
 #define MinColorValue CRGB(0,0,0)
 #define MaxBlueValue CRGB(0,0,200)
-#define MaxRedValue CRGB(200,0,0)
+
+#define MinAlarmValue CRGB(100,0,0)
+#define MaxAlarmValue CRGB(240,0,0)
+#define ALARM_COLOR_CHANGE_DELTA 50
 
 enum Modes {
 	NoMode = 0,
@@ -25,9 +28,9 @@ enum Modes {
 // ---------- Microphone Vlaues ----------
 
 #define MPIN A1 // Microphone Pin
-#define Limit 400
-#define ClapWaitingTime 1500
-
+#define AMPLITUDE_LIMIT 375
+#define WAITING_CLAP_TIME 3000
+#define AMPLITUDE_DETECT_TIME 110
 
 // ---------- Microphone Vlaues ----------
 
