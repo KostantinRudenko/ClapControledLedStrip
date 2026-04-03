@@ -5,12 +5,14 @@
 #include "functions.h"
 #include "timer.h"
 #include "ledStrip.h"
+#include "microphone.h"
 
 uint8_t deviceSt = 0;
 uint8_t deviceMode = 0;
 
 Timer clapTimer;
 LedStrip led;
+Microphone micro;
 
 void setup() {
   pinMode(DPIN, OUTPUT);
@@ -34,14 +36,13 @@ void loop() {
       break;
 
     case 2:
-      GetAmplitude(A);
 
       if (clapsAmount != 0 && clapTimer.wait(3000)) {
         deviceSt = 3;
         break;
       }
 
-      if (isClap(A)) {
+      if (micro.isClap()) {
         clapsAmount++;
         Serial.print("Claps = ");
         Serial.println(clapsAmount);
