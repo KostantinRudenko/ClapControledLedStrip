@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "ledStrip.h"
-#include "ledStripGlobal.h"
+#include "global.h"
 #include "FastLED.h"
 
 LedStrip::LedStrip() {

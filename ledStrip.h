@@ -2,7 +2,7 @@
 #define LEDSTRIP_H
 #include <Arduino.h>
 #include "FastLED.h"
-#include "ledStripGlobal.h"
+#include "global.h"
 
 class LedStrip {
 	private:

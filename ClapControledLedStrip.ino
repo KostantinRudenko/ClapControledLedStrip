@@ -15,7 +15,7 @@ LedStrip led;
 Microphone micro;
 
 void setup() {
-  pinMode(DPIN, OUTPUT);
+  pinMode(DATA_PIN, OUTPUT);
   pinMode(MPIN, INPUT);
 
   Serial.begin(115200);
