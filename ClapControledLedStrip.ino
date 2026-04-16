@@ -2,7 +2,6 @@
 #include "FastLED.h"
 
 #include "global.h"
-#include "functions.h"
 #include "timer.h"
 #include "ledStrip.h"
 #include "microphone.h"
