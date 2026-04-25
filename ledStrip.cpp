@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "ledStrip.h"
+#include "timer.h"
 #include "global.h"
 #include "FastLED.h"
 
@@ -35,6 +36,9 @@ void LedStrip::setMode(uint8_t mode) {
 bool LedStrip::executeMode() {
 	if (_currentMode == Alarm) {
 		alarmMode();
+	}
+	else if (_currentMode == PinkRunner) {
+		pinkRunnerMode();
 	}
 	return true;
 }
@@ -81,5 +85,27 @@ void LedStrip::alarmMode() {
 	for (uint8_t i = 0; i < _ledsAmount; i++) {
 		_leds[i] = CRGB(RedColor,0,0);
 	}
+	FastLED.show();
+}
+
+void LedStrip::pinkRunnerMode() {
+	static uint8_t curPos = 0;
+	static Timer timer;
+
+	//clear();
+
+	_leds[curPos] = PinkColor2;
+	_leds[(curPos+1)%_ledsAmount] = PinkColor1;
+	_leds[(curPos+2)%_ledsAmount] = PinkColor0;
+	_leds[(curPos+3)%_ledsAmount] = PinkColor1;
+	_leds[(curPos+4)%_ledsAmount] = PinkColor2;
+
+	if (timer.wait(111)) {
+		_leds[curPos] = CRGB::Black;
+		curPos=(curPos+1)%_ledsAmount;
+		timer.reset();				
+		return;
+	}
+
 	FastLED.show();
 }
