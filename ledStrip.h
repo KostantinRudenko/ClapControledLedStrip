@@ -18,6 +18,7 @@ class LedStrip {
 		bool fillFromColorToColor(const CRGB& FromColor, const CRGB& ToColor);
 		void alarmMode();
 		bool blueFillMode();
+		void pinkRunnerMode();
 };
 
 #endif
