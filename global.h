@@ -17,6 +17,7 @@
 #define PinkColor0 CRGB(255, 20, 47)
 #define PinkColor1 CRGB(85, 10, 25)
 #define PinkColor2 CRGB(50, 4, 12)
+#define PINK_MOVE_DELTA 2
 
 enum Modes {
 	NoMode = 0,

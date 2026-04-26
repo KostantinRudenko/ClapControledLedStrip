@@ -102,10 +102,12 @@ void LedStrip::pinkRunnerMode() {
 
 	FastLED.show();
 	
-	if (timer.wait(5)) {
-		_leds[curPos] = CRGB::Black;
-		curPos=(curPos+1)%_ledsAmount;
-		timer.reset();				
+	if (timer.wait(25)) {
+		for (uint8_t i = 0; i < PINK_MOVE_DELTA; i++) {
+			_leds[curPos+i] = CRGB::Black;
+		}
+		curPos=(curPos+PINK_MOVE_DELTA)%_ledsAmount;
+		timer.reset();
 		return;
 	}
 
