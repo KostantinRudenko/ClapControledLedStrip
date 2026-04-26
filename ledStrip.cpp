@@ -100,12 +100,14 @@ void LedStrip::pinkRunnerMode() {
 	_leds[(curPos+3)%_ledsAmount] = PinkColor1;
 	_leds[(curPos+4)%_ledsAmount] = PinkColor2;
 
-	if (timer.wait(111)) {
+	FastLED.show();
+	
+	if (timer.wait(5)) {
 		_leds[curPos] = CRGB::Black;
 		curPos=(curPos+1)%_ledsAmount;
 		timer.reset();				
 		return;
 	}
 
-	FastLED.show();
+	
 }
