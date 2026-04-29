@@ -14,11 +14,12 @@ class LedStrip {
 		LedStrip();
 		void clear();
 		void setMode(uint8_t mode);
+                void resetMode();
 		bool executeMode();
 		bool fillFromColorToColor(const CRGB& FromColor, const CRGB& ToColor);
-		void alarmMode();
-		bool blueFillMode();
-		void pinkRunnerMode();
+		void alarmMode(bool isReset = false);
+		bool blueFillMode(bool isReset = false);
+		void pinkRunnerMode(bool isReset = false);
 };
 
 #endif

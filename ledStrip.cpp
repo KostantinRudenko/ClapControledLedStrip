@@ -23,6 +23,8 @@ void LedStrip::clear() {
 }
 
 void LedStrip::setMode(uint8_t mode) {
+        clear();
+        resetMode();
 	if (_currentMode != mode ||
 	   (_currentMode == BlueWave && mode == BlueWave))
 		_currentMode = mode;
@@ -31,6 +33,18 @@ void LedStrip::setMode(uint8_t mode) {
 
 	Serial.print("Current mode = ");
 	Serial.println(_currentMode);
+}
+
+void LedStrip::resetMode() {
+        switch (_currentMode) {
+                case Alarm:
+                        alarmMode(true);
+                        break;
+
+                case PinkRunner:
+                        pinkRunnerMode(true);
+                        break;
+        }
 }
 
 bool LedStrip::executeMode() {
@@ -66,9 +80,15 @@ bool LedStrip::fillFromColorToColor(const CRGB& FromColor, const CRGB& ToColor) 
 	return false;
 }
 
-void LedStrip::alarmMode() {
+void LedStrip::alarmMode(bool isReset = false) {
 	static uint8_t RedColor = MinAlarmValue.r;
 	static bool isForward = true;
+
+        if (isReset) {
+                RedColor = MinAlarmValue.r;
+                isForward = true;
+                return;
+        }
 
 	if (isForward && RedColor <= MaxAlarmValue.r) {
 		RedColor = RedColor + ALARM_COLOR_CHANGE_DELTA;
@@ -88,10 +108,14 @@ void LedStrip::alarmMode() {
 	FastLED.show();
 }
 
-void LedStrip::pinkRunnerMode() {
+void LedStrip::pinkRunnerMode(bool isReset = false) {
 	static uint8_t curPos = 0;
 	static Timer timer;
 
+        if (isReset) {
+                curPos = 0;
+                return;
+        }
 	//clear();
 
 	_leds[curPos] = PinkColor2;
